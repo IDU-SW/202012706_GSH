@@ -21,11 +21,11 @@ class Game {
             return searchData.filter((item) =>{
                 switch(method){
                     case 'title':
-                        return item.title.search(text) >= 0; 
+                        return item.title.toLowerCase().search(text.toLowerCase()) >= 0; 
                     case 'dev':
-                        return item.developer.search(text) >= 0; 
+                        return item.developer.toLowerCase().search(text.toLowerCase()) >= 0; 
                     case 'platform':
-                        return item.platform.search(text) >= 0; 
+                        return item.platform.toLowerCase().search(text.toLowerCase()) >= 0; 
                     default : return 0;
                 }
             });
@@ -44,11 +44,17 @@ class Game {
                     case 'id':
                         return a.id - b.id; // 오름 정렬
                     case 'title':
-                        return a.title < b.title ? -1 : a.title > b.title ? 1 : 0; // 문자열 오름 정렬
+                        var first = a.title.toLowerCase();
+                        var second = b.title.toLowerCase();
+                        return first < second ? -1 : first > second ? 1 : 0; // 문자열 오름 정렬
                     case 'dev':
-                        return a.developer < b.developer ? -1 : a.developer > b.developer ? 1 : 0; // 문자열 오름 정렬
+                        var first = a.developer.toLowerCase();
+                        var second = b.developer.toLowerCase();
+                        return first < second ? -1 : first > second ? 1 : 0; // 문자열 오름 정렬
                     case 'platform':
-                        return a.platform < b.platform ? -1 : a.platform > b.platform ? 1 : 0; // 문자열 오름 정렬
+                        var first = a.platform.toLowerCase();
+                        var second = b.platform.toLowerCase();
+                        return first < second ? -1 : first > second ? 1 : 0; // 문자열 오름 정렬
                     case 'score':
                         return b.score - a.score; // 내림 정렬
                     case 'date':
@@ -74,12 +80,12 @@ class Game {
         });
     }
 
-    editGame(gameId, title, genre, developer, releaseDate, score, platform) {
+    editGame(id, title, genre, developer, releaseDate, score, platform) {
         return new Promise((resolve, reject) => {
             for (var game of this.games ) {
-                if ( game.id == gameId ) {
-                    let newGame = {gameId, title, genre, developer, releaseDate, score, platform};
-                    this.games.splice(gameId, 1, newGame);
+                if ( game.id == id ) {
+                    let newGame = {id, title, genre, developer, releaseDate, score, platform};
+                    this.games.splice(id, 1, newGame);
                     resolve(newGame);
                     return;
                 }
@@ -88,11 +94,11 @@ class Game {
         });
     }
     
-    deleteGame(gameId) {
+    deleteGame(id) {
         return new Promise((resolve, reject) => {
             for (var game of this.games ) {
-                if ( game.id == gameId ) {
-                    this.games.splice(gameId, 1);
+                if ( game.id == id ) {
+                    this.games.splice(id, 1);
                     resolve(game);
                     return;
                 }
@@ -102,10 +108,10 @@ class Game {
     }
 
     // Promise - Reject
-    getGameDetail(gameId) {
+    getGameDetail(id) {
         return new Promise((resolve, reject) => {
             for (var game of this.games ) {
-                if ( game.id == gameId ) {
+                if ( game.id == id ) {
                     resolve(game);
                     return;
                 }

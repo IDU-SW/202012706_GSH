@@ -6,9 +6,9 @@ router.get('/games', showGameList);
 router.get('/games/:method/:text', showSearchGameList);
 router.get('/games/:sort', showGameListOrder);
 router.get('/game/:gameId', showGameDetail);
-router.post('/gameAdd', addGame);
-router.post('/gameEdit/:gameId', editGame);
-router.post('/gameDelete/:gameId', deleteGame);
+router.post('/game', addGame);
+router.put('/game', editGame);
+router.delete('/game/:gameId', deleteGame);
 
 module.exports = router;
 
@@ -80,7 +80,7 @@ async function addGame(req, res) {
 async function editGame(req, res) {
     console.log('-----게임 수정-----');
 
-    const gameId = parseInt(req.params.gameId);
+    const gameId = parseInt(req.body.id);
     const title = req.body.title;
     const genre = req.body.genre;
     const developer = req.body.developer;
