@@ -1,7 +1,7 @@
 {
-  "name": "moviest",
+  "name": "game",
   "version": "1.0.0",
-  "description": "",
+  "description": "6주차 과제 - API 서버",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +11,13 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IDU-SW/202012706_GSH.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IDU-SW/202012706_GSH/issues"
+  },
+  "homepage": "https://github.com/IDU-SW/202012706_GSH#readme"
 }
