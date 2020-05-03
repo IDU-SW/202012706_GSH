@@ -84,8 +84,9 @@ class Game {
         return new Promise((resolve, reject) => {
             for (var game of this.games ) {
                 if ( game.id == id ) {
+                    const fIndex = this.games.indexOf(game);
                     let newGame = {id, title, genre, developer, releaseDate, score, platform};
-                    this.games.splice(id, 1, newGame);
+                    this.games.splice(fIndex, 1, newGame);
                     resolve(newGame);
                     return;
                 }
@@ -97,8 +98,10 @@ class Game {
     deleteGame(id) {
         return new Promise((resolve, reject) => {
             for (var game of this.games ) {
+                console.log('비교' + game.id +',' + id);
                 if ( game.id == id ) {
-                    this.games.splice(id, 1);
+                    const fIndex = this.games.indexOf(game);
+                    this.games.splice(fIndex, 1);
                     resolve(game);
                     return;
                 }

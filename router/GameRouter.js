@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const games = require('../model/GameModel');
+const path = require('path');
+
 
 router.get('/games', showGameList);
 router.get('/games/:method/:text', showSearchGameList);
@@ -9,7 +11,12 @@ router.get('/game/:gameId', showGameDetail);
 router.post('/game', addGame);
 router.put('/game', editGame);
 router.delete('/game/:gameId', deleteGame);
-
+// index.html
+router.get('/', (req, res) => {
+    const gameList = games.getGameList();
+    res.render('index',{games:gameList});
+ });
+ 
 module.exports = router;
 
 function showGameList(req, res) {
@@ -69,7 +76,8 @@ async function addGame(req, res) {
 
     try {
         const result = await games.addGame(title, genre, developer, releaseDate, score, platform);
-        res.send({msg:'성공', data:result});
+        console.log(result);
+        res.redirect('/');
     }
     catch ( error ) {
         console.log('추가 실패');
@@ -97,7 +105,8 @@ async function editGame(req, res) {
     try {
         console.log('gameId : ', gameId);
         const result = await games.editGame(gameId, title, genre, developer, releaseDate, score, platform);
-        res.send({msg:'수정 성공', data:result});
+        console.log(result);
+        res.redirect('/');
     }
     catch ( error ) {
         console.log('수정 실패');
@@ -111,7 +120,8 @@ async function deleteGame(req, res) {
         const gameId = parseInt(req.params.gameId);
         console.log('gameId : ', gameId);
         const result = await games.deleteGame(gameId);
-        res.send({msg:'삭제 성공', data:result});
+        console.log(result);
+        res.redirect('/');
     }
     catch ( error ) {
         console.log('삭제 실패');
