@@ -2,10 +2,11 @@
 
 7주차 과제 - 프론트엔드 추가 (pug 기반)
 
+<img src="https://user-images.githubusercontent.com/39910963/80916217-46282880-8d92-11ea-8f0a-37ea3d852600.jpg">
+
 리스트, 게임 추가, 수정, 삭제는 index.pug에 작성해놨습니다.
 
 기존의 삭제 및 수정 버그 수정 (index 참조 오류)
-
 ---
 
 6주차 과제 - API 서버
