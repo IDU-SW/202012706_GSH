@@ -96,7 +96,7 @@ async function deleteGame(req, res) {
     }
 }
 
-// jsp api 잔재들
+// json api 잔재들
 function showGameList(req, res) {
     const sort = (req.body.sort)? req.body.sort : 1 ;
     console.log('-----게임 목록 불러오기-----');
