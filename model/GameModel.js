@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-class Game {
+class GameModel {
     constructor() {
         const data = fs.readFileSync('./model/data.json');
         this.games = JSON.parse(data)
@@ -124,4 +124,4 @@ class Game {
     }
 }
 
-module.exports = new Game();
+module.exports = new GameModel();

@@ -2,71 +2,69 @@ html
    head
       meta(charset='UTF-8')
       title metacritic 게임
-      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
+      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+
    body(class='container')
-      h1 게임 평가 목록
+      h1(class='text-center') 게임 평가 목록
+
       table(class='table')
-         tr
-            th ID
-            th 제목
-            th 장르
-            th 개발사
-            th 출시일
-            th 점수
-            th 기기
-            th(colspan=2) 
-               button(onclick='document.getElementById("input").style.display = "contents";' class='btn btn-block btn-primary') 추가
-         tr(id='input' style='display:none')
-            form(action='/game?_method=POST' method='post' style='margin:0; padding:0')
-               td
-                  input(type='text' name='id' class='form-control' disabled)
-               td 
-                  input(type='text' name='title' class='form-control')
-               td
-                  input(type='text' name='genre' class='form-control')
-               td
-                  input(type='text' name='developer' class='form-control')
-               td
-                  input(type='number' name='releaseDate' class='form-control')
-               td
-                  input(type='number' name='score' class='form-control')
-               td
-                  input(type='text' name='platform' class='form-control')
-               td(colspan=2)
-                  input(type='submit' value='추가' class='btn btn-block btn-success' class='form-control')
-
-         for item in games
+         thead
             tr
-               td(class='col-md-1') #{item.id}
-               td(class='col-md-3') #{item.title}
-               td(class='col-md-2') #{item.genre}
-               td(class='col-md-2') #{item.developer}
-               td(class='col-md-1') #{item.releaseDate}
-               td(class='col-md-1') #{item.score}
-               td(class='col-md-3') #{item.platform}
-               td
-                  button( id='btn'+item.id+'open' onclick='document.getElementById("tr'+item.id+'").style.display = "contents"; document.getElementById("btn'+item.id+'close").style.display = "block";' class='btn btn-block btn-warning') 수정
-
-               td 
-                  form(action='/game/'+item.id+'?_method=DELETE' method='post' style='margin:0')
-                     input(type='submit' value='삭제' class='btn btn-block btn-danger')
-            tr(id='tr'+item.id style='display:none')
-               form(action='/game?_method=PUT' method='post' style='margin:0; padding:0')
+               each val, index in {1:'ID', 2:'제목', 3:'장르', 4:'개발사', 5:'출시일', 6:'점수', 7:'기기'}
+                  th(class='col')
+                     a(href='?sort='+index+((index==sort&!direction)?'&direction=1':'') class='btn btn-block') #{val}
+               th(colspan=2) 
+                  button(onclick='document.getElementById("input").style.display = "contents";' class='btn btn-block btn-primary') 추가
+         tbody
+            tr(id='input' style='display:none')
+               form(action='/game?_method=POST' method='post' style='margin:0; padding:0')
                   td
-                     input(type='text' name='id' value=item.id class='form-control' readonly)
+                     input(type='text' name='id' class='form-control' disabled)
                   td 
-                     input(type='text' name='title' value=item.title class='form-control')
+                     input(type='text' name='title' class='form-control')
                   td
-                     input(type='text' name='genre' value=item.genre class='form-control')
+                     input(type='text' name='genre' class='form-control')
                   td
-                     input(type='text' name='developer' value=item.developer class='form-control')
+                     input(type='text' name='developer' class='form-control')
                   td
-                     input(type='number' name='releaseDate' value=item.releaseDate class='form-control')
+                     input(type='number' name='releaseDate' class='form-control')
                   td
-                     input(type='number' name='score' value=item.score class='form-control')
+                     input(type='number' name='score' class='form-control')
                   td
-                     input(type='text' name='platform' value=item.platform class='form-control')
+                     input(type='text' name='platform' class='form-control')
                   td(colspan=2)
-                     input(type='submit' value='수정' class='btn btn-block btn-success' class='form-control')
+                     input(type='submit' value='추가' class='btn btn-block btn-success' class='form-control')
 
-         
+            for item in games
+               tr
+                  td(class='col-1 text-center') #{item.game_id}
+                  td(class='col-3') #{item.title}
+                  td(class='col-2') #{item.genre}
+                  td(class='col-2') #{item.developer}
+                  td(class='col-3') #{item.release_date}
+                  td(class='col-1 text-center') #{item.score}
+                  td(class='col-2') #{item.platform}
+                  td
+                     button( id='btn'+item.game_id+'open' onclick='document.getElementById("tr'+item.game_id+'").style.display = "contents"; document.getElementById("btn'+item.game_id+'close").style.display = "block";' class='btn btn-block btn-warning') 수정
+
+                  td 
+                     form(action='/game/'+item.game_id+'?_method=DELETE' method='post' style='margin:0')
+                        input(type='submit' value='삭제' class='btn btn-block btn-danger')
+               tr(id='tr'+item.game_id style='display:none')
+                  form(action='/game?_method=PUT' method='post' style='margin:0; padding:0')
+                     td
+                        input(type='text' name='id' value=item.game_id class='form-control' readonly)
+                     td 
+                        input(type='text' name='title' value=item.title class='form-control')
+                     td
+                        input(type='text' name='genre' value=item.genre class='form-control')
+                     td
+                        input(type='text' name='developer' value=item.developer class='form-control')
+                     td
+                        input(type='number' name='releaseDate' value=item.release_date class='form-control')
+                     td
+                        input(type='number' name='score' value=item.score class='form-control')
+                     td
+                        input(type='text' name='platform' value=item.platform class='form-control')
+                     td(colspan=2)
+                        input(type='submit' value='수정' class='btn btn-block btn-success' class='form-control')
