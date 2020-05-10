@@ -9,7 +9,7 @@ class GameModel { }
 */
 
 GameModel.insertGame = async (title, genre, developer, releaseDate, score, platform) => {
-    console.log('Model : insertGame');
+    console.log('Model - insertGame');
     const sql = 'INSERT INTO games SET ?';
     const release_date = releaseDate;
     const data = {title, genre, developer, release_date, score, platform};
@@ -101,6 +101,8 @@ GameModel.deleteGame = async (gameId) => {
 
 // 혹시모를 초기화 및 재생성
 GameModel.initModel = async () => {
+    console.log('Model - initModel');
+    console.log('games 테이블 생성');
     const sql = 'create table if not exists games ( game_id int primary key auto_increment, title varchar(100), genre varchar(100), developer varchar(50), release_date int, score int, platform varchar(50));';
     await pool.query(sql);
 }

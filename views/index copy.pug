@@ -2,7 +2,7 @@ html
    head
       meta(charset='UTF-8')
       title metacritic 게임
-      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css')
 
    body(class='container')
       h1(class='text-center') 게임 평가 목록
@@ -11,7 +11,7 @@ html
          thead(class='thead-light')
             tr
                each val, index in {1:'ID', 2:'제목', 3:'장르', 4:'개발사', 5:'출시일', 6:'점수', 7:'기기'}
-                  th(class='col')
+                  th(scope="col")
                      a(href='?sort='+index+((index==sort&!direction)?'&direction=1':'') class='btn btn-block') #{val}
                th(colspan=2) 
                   button(onclick='document.getElementById("input").style.display = "";' class='btn btn-block btn-primary') 추가
@@ -45,14 +45,14 @@ html
                   td(class='text-center') #{item.score}
                   td #{item.platform}
                   td
-                     button( id='btn'+item.game_id+'open' onclick='document.getElementById("tr'+item.game_id+'").style.display = "";' class='btn btn-block btn-warning') 수정
+                     button( id='btn'+item.game_id+'open' onclick='document.getElementById("tr'+item.game_id+'").style.display = ""; document.getElementById("btn'+item.game_id+'close").style.display = "block";' class='btn btn-block btn-warning') 수정
                   td
                      form(action='/game/'+item.game_id+'?_method=DELETE' method='post' style='margin:0')
                         input(type='submit' value='삭제' class='btn btn-block btn-danger')
                tr(id='tr'+item.game_id style='display:none')
                   form(action='/game?_method=PUT' method='post' style='margin:0; padding:0')
                      td
-                        input(type='text' name='id' value=item.game_id class='form-control' readonly)
+                        input(type='text' name='id' value=item.game_id class='form-control' style='width:100%;' readonly)
                      td
                         input(type='text' name='title' value=item.title class='form-control')
                      td

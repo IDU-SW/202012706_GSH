@@ -5,12 +5,16 @@ const path = require('path');
 
 
 router.post('/game', addGame);
+
 router.get('/', showIndex);
+router.get('/init-table', initTable);
 router.get('/games', showGameList);
 router.get('/games/:method/:text', showSearchGameList);
 router.get('/games/:sort', showGameListOrder);
 router.get('/game/:gameId', showGameDetail);
+
 router.put('/game', editGame);
+
 router.delete('/game/:gameId', deleteGame);
 
 module.exports = router;
@@ -139,4 +143,7 @@ async function showGameDetail(req, res) {
     }
 }
 
+function initTable(req, res){
+   games.initModel().then(res.redirect('/'));
+}
 

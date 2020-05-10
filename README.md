@@ -1,19 +1,42 @@
 ## 202012706 고성환
 
-7주차 과제 - 프론트엔드 추가 (pug 기반)
+# 8주차 과제 - DB 연동 (MySQL 기반)
 
-<img src="https://user-images.githubusercontent.com/39910963/80916217-46282880-8d92-11ea-8f0a-37ea3d852600.jpg">
+<img src='https://user-images.githubusercontent.com/39910963/81104795-0443e180-8f4e-11ea-92b3-5af632bb5ad2.jpg'>
+
+
+7주차에 MySQL을 연동했습니다.
+
+정렬기능이 추가되었습니다.
+
+- 해당 표의 맨 상단의 구분을 누르시면 정렬이되며
+
+- 기본으로 오름차순으로 정렬되며 같은 것을 다시 누르면 내림차순으로 변경됩니다.
+
+연동을 위해 dbConnection을 수정하시거나 자신의 MySQL에 추가해주시기 바랍니다.
+
+/init-table 이 추가되었습니다.
+
+- 연동이 되어있는 경우 테이블을 만들어 주게 됩니다.
+
+몇개의 값이 있는 csv파일을 첨부해 놨으니 MsSQL에서 Import하여 예제로 사용해보세요.
+
+
+
+# 7주차 과제 - 프론트엔드 추가 (pug 기반)
+
+<img src='https://user-images.githubusercontent.com/39910963/80916217-46282880-8d92-11ea-8f0a-37ea3d852600.jpg'>
 
 리스트, 게임 추가, 수정, 삭제는 index.pug에 작성해놨습니다.
 
 기존의 삭제 및 수정 버그 수정 (index 참조 오류)
 ---
 
-6주차 과제 - API 서버
+# 6주차 과제 - API 서버
 
 index.js 실행
 
-# 사용법
+## 사용법
 
 * [URL](#URL)
 * [출력](#출력)
