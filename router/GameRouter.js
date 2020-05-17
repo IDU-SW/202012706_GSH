@@ -1,20 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const games = require('../model/model');
+const games = require('../model/Model9');
 const path = require('path');
 
 
+router.get('/init', initTable);
+
 router.post('/game', addGame);
-
 router.get('/', showIndex);
-router.get('/init-table', initTable);
-router.get('/games', showGameList);
-router.get('/games/:method/:text', showSearchGameList);
-router.get('/games/:sort', showGameListOrder);
-router.get('/game/:gameId', showGameDetail);
-
 router.put('/game', editGame);
-
 router.delete('/game/:gameId', deleteGame);
 
 module.exports = router;
@@ -26,27 +20,29 @@ function showIndex(req, res) {
     const direction = req.query.direction;
     // promise 함수의 결과물은 .then에서 출력하지 않으면 promise object가 되어 출력되지 않음
     // 기존은 async로 되어있어서 됐던거임
-    games.getGameList(sort, direction).then((result) => {
+    games.readList(sort, direction).then((result) => {
         res.render('index',{games:result, sort:sort, direction:direction});
     });
 }
 
 async function addGame(req, res) {
     console.log('\nPOST Requst : ADD');
-    const title = req.body.title;
+    const game = {
+        title: req.body.title,
+        genre: req.body.genre,
+        developer: req.body.developer,
+        releaseDate: parseInt(req.body.releaseDate),
+        score: parseInt(req.body.score),
+        platform: req.body.platform
+    }
 
-    if (!title) {
+    if (!game.title) {
         res.status(400).send({error:'title 누락'});
         return;
     }
-    const genre = req.body.genre;
-    const developer = req.body.developer;
-    const releaseDate = parseInt(req.body.releaseDate);
-    const score = parseInt(req.body.score);
-    const platform = req.body.platform;
 
     try {
-        const result = await games.insertGame(title, genre, developer, releaseDate, score, platform);
+        const result = await games.create(game);
         console.log(result);
         res.redirect('/');
     }
@@ -59,23 +55,24 @@ async function addGame(req, res) {
 async function editGame(req, res) {
     console.log('\nPUT Requst : EDIT');
 
-    const gameId = parseInt(req.body.id);
-    const title = req.body.title;
-    const genre = req.body.genre;
-    const developer = req.body.developer;
-    const releaseDate = parseInt(req.body.releaseDate);
-    const score = parseInt(req.body.score);
-    const platform = req.body.platform;
+    const game = {
+        id: parseInt(req.body.id),
+        title: req.body.title,
+        genre: req.body.genre,
+        developer: req.body.developer,
+        releaseDate: parseInt(req.body.releaseDate),
+        score: parseInt(req.body.score),
+        platform: req.body.platform
+    }
     
-    
-    if (!title) {
+    if (!game.title) {
         res.status(400).send({error:'title 누락'});
         return;
     }
 
     try {
-        console.log('gameId : ', gameId);
-        const result = await games.updateGame(gameId, title, genre, developer, releaseDate, score, platform);
+        console.log('gameId : ', game.id);
+        const result = await games.update(game);
         console.log(result);
         res.redirect('/');
     }
@@ -90,7 +87,7 @@ async function deleteGame(req, res) {
     try {
         const gameId = parseInt(req.params.gameId);
         console.log('gameId : ', gameId);
-        const result = await games.deleteGame(gameId);
+        const result = await games.delete(gameId);
         console.log(result);
         res.redirect('/');
     }
@@ -100,50 +97,6 @@ async function deleteGame(req, res) {
     }
 }
 
-// json api 잔재들
-function showGameList(req, res) {
-    const sort = (req.body.sort)? req.body.sort : 1 ;
-    console.log('-----게임 목록 불러오기-----');
-    const gameList = games.getGames(sort);
-    const result = { data:gameList, count:gameList.length };
-    res.send(result);
-}
-
-function showSearchGameList(req, res) {
-    console.log('-----게임 검색 목록 불러오기-----');
-    const method = req.params.method;
-    const text = req.params.text;
-    const gameList = games.getGameListSearch(method, text);
-    const result = { data:gameList, count:gameList.length };
-    res.send(result);
-}
-
-
-function showGameListOrder(req, res) {
-    console.log('-----게임 정렬 목록 불러오기-----');
-    const sort = req.params.sort;
-    const gameList= games.getGameListSort(sort);
-    const result = { data:gameList, count:gameList.length };
-    res.send(result);
-}
-
-
-// Async-await를 이용하기
-async function showGameDetail(req, res) {
-    console.log('-----게임 불러오기-----');
-    try {
-        const gameId = parseInt(req.params.gameId);
-        console.log('gameId : ', gameId);
-        const info = await games.getGameDetail(gameId);
-        res.send(info);
-    }
-    catch ( error ) {
-        console.log('불러오기 실패');
-        res.status(error.code).send({msg:error.msg});
-    }
-}
-
 function initTable(req, res){
-   games.initModel().then(res.redirect('/'));
+   games.init().then(res.redirect('/'));
 }
-

@@ -37,22 +37,22 @@ html
 
             for item in games
                tr
-                  td(class='text-center') #{item.game_id}
+                  td(class='text-center') #{item.id}
                   td #{item.title}
                   td #{item.genre}
                   td #{item.developer}
-                  td #{item.release_date}
+                  td #{item.releaseDate}
                   td(class='text-center') #{item.score}
                   td #{item.platform}
                   td
-                     button( id='btn'+item.game_id+'open' onclick='document.getElementById("tr'+item.game_id+'").style.display = "";' class='btn btn-block btn-warning') 수정
+                     button( id='btn'+item.id+'open' onclick='document.getElementById("tr'+item.id+'").style.display = "";' class='btn btn-block btn-warning') 수정
                   td
-                     form(action='/game/'+item.game_id+'?_method=DELETE' method='post' style='margin:0')
+                     form(action='/game/'+item.id+'?_method=DELETE' method='post' style='margin:0')
                         input(type='submit' value='삭제' class='btn btn-block btn-danger')
-               tr(id='tr'+item.game_id style='display:none')
+               tr(id='tr'+item.id style='display:none')
                   form(action='/game?_method=PUT' method='post' style='margin:0; padding:0')
                      td
-                        input(type='text' name='id' value=item.game_id class='form-control' readonly)
+                        input(type='text' name='id' value=item.id class='form-control' readonly)
                      td
                         input(type='text' name='title' value=item.title class='form-control')
                      td
@@ -60,7 +60,7 @@ html
                      td
                         input(type='text' name='developer' value=item.developer class='form-control')
                      td
-                        input(type='number' name='releaseDate' value=item.release_date class='form-control')
+                        input(type='number' name='releaseDate' value=item.releaseDate class='form-control')
                      td
                         input(type='number' name='score' value=item.score class='form-control')
                      td
