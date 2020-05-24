@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const games = require('../model/Model9');
+const games = require('../model/Model10');
 const path = require('path');
 
 
@@ -54,9 +54,8 @@ async function addGame(req, res) {
 
 async function editGame(req, res) {
     console.log('\nPUT Requst : EDIT');
-
+    const id = req.body._id;
     const game = {
-        id: parseInt(req.body.id),
         title: req.body.title,
         genre: req.body.genre,
         developer: req.body.developer,
@@ -71,8 +70,8 @@ async function editGame(req, res) {
     }
 
     try {
-        console.log('gameId : ', game.id);
-        const result = await games.update(game);
+        console.log('gameId : ', id);
+        const result = await games.update(id, game);
         console.log(result);
         res.redirect('/');
     }
@@ -85,9 +84,9 @@ async function editGame(req, res) {
 async function deleteGame(req, res) {
     console.log('\nDELETE Requst : DELETE');
     try {
-        const gameId = parseInt(req.params.gameId);
-        console.log('gameId : ', gameId);
-        const result = await games.delete(gameId);
+        const id = req.params.gameId;
+        console.log('Id : ', id);
+        const result = await games.delete(id);
         console.log(result);
         res.redirect('/');
     }
