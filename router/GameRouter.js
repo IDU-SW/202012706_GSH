@@ -1,23 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const games = require('../model/Model10');
-const path = require('path');
+const games = require('../model/GameModel');
+const users = require('../model/UserModel');
+const session = require('express-session');
 
-
-router.get('/init', initTable);
-
-router.post('/game', addGame);
 router.get('/', showIndex);
+router.get('/gamelist', showIndex);
+router.get('/gameinit', initTable);
+router.post('/game', addGame);
 router.put('/game', editGame);
 router.delete('/game/:gameId', deleteGame);
 
 module.exports = router;
 
+
 // index.html 정렬 포함
 function showIndex(req, res) {
     console.log('\nGET Requst : Index');
-    const sort = req.query.sort;
-    const direction = req.query.direction;
+    console.log(req.sessionID);
+    const sort = req.query.sort == null ? 'id' : req.query.sort;
+    const direction = req.query.direction!= null ? 'desc' : 'asc' ;
     // promise 함수의 결과물은 .then에서 출력하지 않으면 promise object가 되어 출력되지 않음
     // 기존은 async로 되어있어서 됐던거임
     games.readList(sort, direction).then((result) => {
@@ -54,8 +56,9 @@ async function addGame(req, res) {
 
 async function editGame(req, res) {
     console.log('\nPUT Requst : EDIT');
-    const id = req.body._id;
+    const id = req.body.id;
     const game = {
+        id : req.body.id,
         title: req.body.title,
         genre: req.body.genre,
         developer: req.body.developer,
@@ -71,7 +74,7 @@ async function editGame(req, res) {
 
     try {
         console.log('gameId : ', id);
-        const result = await games.update(id, game);
+        const result = await games.update(game);
         console.log(result);
         res.redirect('/');
     }

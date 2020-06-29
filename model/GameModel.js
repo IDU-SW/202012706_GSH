@@ -1,7 +1,7 @@
-var Sequelize = require('sequelize');
+var Sequelize = require('sequelize')
 const log = console.log;
 
-const sequelize = new Sequelize('example', 'dev', 'secret', { dialect: 'mysql', host: '127.0.0.1' });
+const sequelize = new Sequelize('example', 'admin', 'cometrue', { dialect: 'mysql', host: 'idu-2020.cutcvlbvumkv.ap-northeast-2.rds.amazonaws.com' });
 
 const Platform = sequelize.define('Platform', {
     name: Sequelize.STRING
@@ -51,10 +51,11 @@ GameModel.create = async (game) => {
 
 GameModel.readList = async (sort, direction) => {
     log('GameModel.readList');
+    log('sort: '+ sort +' direction: ' + direction);
     let os = [];
     try {
         // order 추가하기 index 형태 추가방법 찾기
-        let ret = await Game.findAll({include: [{model: Platform}]});
+        let ret = await Game.findAll({include: [{model: Platform}], order: [[ sort , direction]]});
         if(!ret.dataValues){
             for(item of ret){
                 let o = {
@@ -83,9 +84,9 @@ GameModel.readList = async (sort, direction) => {
 GameModel.update = async (game) => {
     log('GameModel.update');
     try {
-        let findGame = await Game.findByPk(game.id);
-        log('find game : ', findGame.id);
-        let platform = await Platform.findOrCreate({where: {name: game.platform}});
+        let findGame = await Game.findOne({where: {id: game.id}, raw:true});
+        log('find game : ', findGame);
+        let platform = await Platform.findOrCreate({where: {name: game.platform}, raw:true});
         log('find platform : ', platform[0].id);
         findGame.title = game.title;
         findGame.genre = game.genre;
@@ -93,7 +94,7 @@ GameModel.update = async (game) => {
         findGame.releaseDate = game.releaseDate;
         findGame.score = game.score;
         findGame.platformId = platform[0].id;
-        let ret = await findGame.save();
+        let ret = await Game.update(findGame, {where: {id: findGame.id}});
         // log(ret);
         if(!ret)
             log('update success');

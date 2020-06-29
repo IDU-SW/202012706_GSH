@@ -1,0 +1,3 @@
+id,content,date,enable,icon,image,link,list,main,name,query,title,url
+1,dd,NULL,1,NULL,".thumb a img",,"div ul li",#main_pack,네이버,https://search.naver.com/search.naver?query=,"dl dt a","dl dt a"
+2,span.st,NULL,1,NULL,NULL,NULL,div.g,NULL,구글,https://www.google.com/search?=&q=,"div.r a h3","div.r a"

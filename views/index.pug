@@ -1,25 +1,26 @@
 html
    head
       meta(charset='UTF-8')
-      title metacritic 게임
+      title 겜평소
       link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
 
    body(class='container')
       h1(class='text-center') 게임 평가 목록
+      a(href='/logout') #{user.name } 로그아웃
 
       table(class='table table-bordered')
          thead(class='thead-light')
             tr
-               each val, index in {2:'제목', 3:'장르', 4:'개발사', 5:'출시일', 6:'점수', 7:'기기'}
-                  th(class='col')
-                     a(href='?sort='+index+((index==sort&!direction)?'&direction=1':'') class='btn btn-block') #{val}
+               each val, index in {1:{val:'id', name:'id'}, 2:{val:'title',name:'게임명'}, 3:{val:'genre',name:'장르'}, 4:{val:'developer', name:'개발사'}, 5:{val:'releaseDate', name:'발매일'}, 6:{val:'score', name:'점수'}, 7:{val:'platformId', name:'플랫폼'}}
+                  th
+                     a(href='?sort='+val.val+((val.val==sort&direction!='desc')?'&direction=desc':'') class='btn btn-block') #{val.name}
                th(colspan=2) 
                   button(onclick='document.getElementById("input").style.display = "";' class='btn btn-block btn-primary') 추가
          tbody
             tr(id='input' style='display:none')
                form(action='/game?_method=POST' method='post' style='margin:0; padding:0')
-                  td(style='display:none;')
-                     input(type='text' name='_id' class='form-control' disabled)
+                  td
+                     input(type='text' name='id' class='form-control' disabled)
                   td 
                      input(type='text' name='title' class='form-control')
                   td
@@ -37,7 +38,7 @@ html
 
             for item in games
                tr
-                  td(class='text-center' style='display:none;') #{item._id}
+                  td(class='text-center') #{item.id}
                   td #{item.title}
                   td #{item.genre}
                   td #{item.developer}
@@ -45,14 +46,14 @@ html
                   td(class='text-center') #{item.score}
                   td #{item.platform}
                   td
-                     button( id='btn'+item._id+'open' onclick='document.getElementById("tr'+item._id+'").style.display = "";' class='btn btn-block btn-warning') 수정
+                     button(id='btn'+item.id+'open' onclick='document.getElementById("tr'+item.id+'").style.display = "";' class='btn btn-block btn-warning') 수정
                   td
-                     form(action='/game/'+item._id+'?_method=DELETE' method='post' style='margin:0')
+                     form(action='/game/'+item.id+'?_method=DELETE' method='post' style='margin:0')
                         input(type='submit' value='삭제' class='btn btn-block btn-danger')
-               tr(id='tr'+item._id style='display:none')
+               tr(id='tr'+item.id style='display:none')
                   form(action='/game?_method=PUT' method='post' style='margin:0; padding:0')
-                     td(style='display:none;')
-                        input(type='text' name='_id' value=item._id class='form-control' readonly)
+                     td
+                        input(type='text' name='id' value=item.id class='form-control' readonly)
                      td
                         input(type='text' name='title' value=item.title class='form-control')
                      td
