@@ -45,3 +45,7 @@ user - user
 삭제 (delete : /game/:gameId)
 
 <img src='https://user-images.githubusercontent.com/39910963/86020250-a40b8080-ba62-11ea-95ef-e37d8bc5cee1.jpg'>
+
+예제 링크
+
+http://ec2-3-34-45-116.ap-northeast-2.compute.amazonaws.com:3000/
