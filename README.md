@@ -1,5 +1,7 @@
 ## 202012706 고성환
 
+# 최종 과제는 final 브랜치에 있습니다
+
 # 8주차 과제 - DB 연동 (MySQL 기반)
 
 <img src='https://user-images.githubusercontent.com/39910963/81104795-0443e180-8f4e-11ea-92b3-5af632bb5ad2.jpg'>
